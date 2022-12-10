@@ -102,4 +102,4 @@ UPDATE Fan SET status=1 WHERE @national_id=nationalId;
 -----------------
 GO;
 CREATE PROCEDURE addRepresentative
-
+AS
