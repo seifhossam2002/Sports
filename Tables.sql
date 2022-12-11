@@ -27,7 +27,7 @@ CREATE TABLE clubRepresentative(
 id int IDENTITY,
 name varchar(20),
 username varchar(20) NOT NULL,
-clubId int,
+clubId int,		--bos
 constraint Pk_clubRepresentitive PRIMARY KEY (id),
 constraint Fk_clubRepresentitive foreign key (username) references systemUser(username) ON DELETE CASCADE ON UPDATE CASCADE,
 constraint FkClub_clubRepresentitive foreign key (clubId) references club(id) ON DELETE CASCADE ON UPDATE CASCADE
