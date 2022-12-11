@@ -150,3 +150,12 @@ CREATE PROCEDURE addRepresentative
 @username varchar(20),
 @password varchar(20)
 AS
+DECLARE @clubid int
+SELECT @clubid=club.id from club where @clubname=club.name
+INSERT INTO systemUser VALUES(@username,@password)
+INSERT INTO clubRepresentative (name,username,clubId) VALUES(@name,@username,@clubid)
+
+SELECT * FROM clubRepresentative
+EXEC addRepresentative 'seif','club1','seifhossam262002','Seif-2609'
+
+-------------

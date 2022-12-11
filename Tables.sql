@@ -15,12 +15,23 @@ username varchar (20),
 constraint Pk_stadiumManager PRIMARY KEY (id),
 constraint Fk_stadiumManager foreign key (username) references systemUser(username) ON DELETE CASCADE ON UPDATE CASCADE 
 );
+
+create table club(
+name varchar(20),
+id int identity,
+location varchar(20),
+constraint Pk_club PRIMARY KEY (id),
+); 
+
 CREATE TABLE clubRepresentative(
 id int IDENTITY,
 name varchar(20),
 username varchar(20) NOT NULL,
+clubId int,
 constraint Pk_clubRepresentitive PRIMARY KEY (id),
-constraint Fk_clubRepresentitive foreign key (username) references systemUser(username) ON DELETE CASCADE ON UPDATE CASCADE
+constraint Fk_clubRepresentitive foreign key (username) references systemUser(username) ON DELETE CASCADE ON UPDATE CASCADE,
+constraint FkClub_clubRepresentitive foreign key (clubId) references club(id) ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 
 CREATE TABLE Fan(
@@ -62,15 +73,6 @@ constraint Pk_stadium PRIMARY KEY (id),
 constraint fk_stadium foreign key (stadiumManagerId) references stadiumManager(id) ON DELETE CASCADE ON UPDATE CASCADE 
 );
 
-create table club(
-name varchar(20),
-id int identity,
-location varchar(20),
-clubRepresentativeId int,
-constraint Pk_club PRIMARY KEY (id),
-constraint fk_club foreign key (clubRepresentativeId) references clubRepresentative(id) ON DELETE CASCADE ON UPDATE CASCADE 
-); 
-
 create table match (
 id int identity,
 startTime datetime,
@@ -106,7 +108,6 @@ constraint fkM_ticket foreign key (matchId) references match(id) --ON DELETE SET
 );
 
 EXEC createAllTables;
-
 --------------------------------------
 
 GO;

@@ -15,11 +15,18 @@ Insert INTO StadiumManager VALUES
 ('StadManager 1','stadmanager1'),
 ('StadManager 2','stadmanager2'),
 ('StadManager 3','stadmanager3');
-Insert INTO ClubRepresentative Values
-('clubRep 1','clubrep1'),
-('clubRep 2','clubrep2'),
-('clubRep 3','clubrep3'),
-('clubRep 4','clubrep4');
+INSERT INTO CLUB VALUES 
+('club1','Germany'),
+('club2','Spain'),
+('club3','Morocco'),
+('club4','France')
+--delete from club where location='france'
+SELECT * FROM club;
+Insert INTO ClubRepresentative (name,username,clubId) Values
+('clubRep 1','clubrep1',1),
+('clubRep 2','clubrep2',2),
+('clubRep 3','clubrep3',3),
+('clubRep 4','clubrep4',4);
 
 Insert Into SportsAsssociationManager Values
 ('SA Manager 1','samanager1');
@@ -33,13 +40,6 @@ INSERT INTO Stadium (name,status,location,capacity,stadiumManagerId) VALUES
 ('Stadium1',1,'Qatar',720,1),
 ('Stadium2',0,'Brazil',1000,2),
 ('Stadium3',1,'Portugal',1500,3);
-INSERT INTO CLUB VALUES 
-('club1','Germany',1),
-('club2','Spain',2),
-('club3','Morocco',3),
-('club4','France',4)
-delete from club where location='france'
-SELECT * FROM club;
 SELECT * FROM stadium
 INSERT INTO Match (startTime,endTime,stadiumId,club1Id,club2Id) VALUES
 ('2018-11-11 13:00:00','2018-11-11 15:00:00',1,2,1),
