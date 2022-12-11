@@ -21,15 +21,15 @@ Insert INTO ClubRepresentative Values
 ('clubRep 3','clubrep3'),
 ('clubRep 4','clubrep4');
 
-Insert Into SportsAssociationManager Values
+Insert Into SportsAsssociationManager Values
 ('SA Manager 1','samanager1');
 Insert Into SystemAdmin Values
 ('sys Admin 1','sysadmn1');
-Insert Into Fan Values 
-(123456,'Fan 1','fan1','1980-07-12','010082836684','Pennsylvania',1),
-(234567,'Fan 2','fan2','1986-06-23','01778393922','New York',0),
-(345678,'Fan 3','fan3','1996-09-23','012366438729','LA',1);
-INSERT INTO Stadium VALUES 
+Insert Into Fan (nationalId,name,username,birthDate,phoneNumber,address,status) Values 
+('123456','Fan 1','fan1','1980/07/12','010082836684','Pennsylvania',1),
+('234567','Fan 2','fan2','1986/06/23','01778393922','New York',0),
+('345678','Fan 3','fan3','1996/09/23','012366438729','LA',1);
+INSERT INTO Stadium (name,status,location,capacity,stadiumManagerId) VALUES 
 ('Stadium1',1,'Qatar',720,1),
 ('Stadium2',0,'Brazil',1000,2),
 ('Stadium3',1,'Portugal',1500,3);
@@ -39,7 +39,9 @@ INSERT INTO CLUB VALUES
 ('club3','Morocco',3),
 ('club4','France',4)
 delete from club where location='france'
-INSERT INTO Match VALUES
+SELECT * FROM club;
+SELECT * FROM stadium
+INSERT INTO Match (startTime,endTime,stadiumId,club1Id,club2Id) VALUES
 ('2018-11-11 13:00:00','2018-11-11 15:00:00',1,2,1),
 ('2020-01-13 17:00:00','2020-01-13 19:00:00',2,3,2),
 ('2021-07-21 12:00:00','2021-07-21 14:00:00',3,1,3),
@@ -56,10 +58,10 @@ Insert INTO HostRequest VALUES
 ('unhandled',4,1,2),
 ('accepted',5,3,3),
 ('unhandled',5,3,2);
-INSERT  INTO TICKET VALUES
-(1,1,123456),
-(0,2,234567),
-(1,2,345678),
-(0,3,123456),
-(0,4,345678),
-(1,5,234567);
+INSERT INTO TICKET (status,matchId,fanNationalId) VALUES
+(1,1,'123456'),
+(0,2,'234567'),
+(1,2,'345678'),
+(0,3,'123456'),
+(0,4,'345678'),
+(1,5,'234567');
