@@ -159,3 +159,23 @@ SELECT * FROM clubRepresentative
 EXEC addRepresentative 'seif','club1','seifhossam262002','Seif-2609'
 
 -------------
+GO;
+CREATE FUNCTION viewAvailableStadiumsOn
+(@elyoom datetime)
+returns @availablestadium TABLE(
+	name varchar(20),
+	location varchar(20),
+	capacity int
+)
+AS
+BEGIN
+INSERT INTO @availablestadium
+SELECT name,location,capacity from stadium
+where EXISTS(
+	SELECT stadium.id,match.id from stadium
+	LEFT OUTER JOIN match ON match.stadiumId=stadium.id
+	WHERE stadium.status=1 and match.startTime=@elyoom and match.id IS NULL
+)
+return
+END
+
