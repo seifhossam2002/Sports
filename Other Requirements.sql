@@ -7,6 +7,9 @@ AS
 INSERT INTO dbo.systemUser VALUES(@username,@password)
 INSERT INTO dbo.allAssocManagers VALUES(@name,@username);
 
+DROP PROCEDURE addAssociationManager
+DELETE FROM systemUser where username='seifhossam2002'
+EXEC addAssociationManager 'Seif','seifhossam2002','Great_Scott2002'
 -------------------
 GO;
 CREATE PROCEDURE addNewMatch
