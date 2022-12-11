@@ -5,9 +5,11 @@ CREATE PROCEDURE addAssociationManager
 @password varchar(20)
 AS
 INSERT INTO dbo.systemUser VALUES(@username,@password)
-INSERT INTO dbo.allAssocManagers VALUES(@name,@username);
+INSERT INTO SportsAsssociationManager VALUES(@name,@username);
 
 DROP PROCEDURE addAssociationManager
+SELECT * FROM systemUser
+SELECT * FROM SportsAsssociationManager
 DELETE FROM systemUser where username='seifhossam2002'
 EXEC addAssociationManager 'Seif','seifhossam2002','Great_Scott2002'
 -------------------
@@ -21,11 +23,22 @@ AS
 DECLARE @clubid1 int,@clubid2 int,@hostid int,@endtime datetime;
 SELECT @clubid1=club.id from dbo.club where @clubname1=club.name;
 SELECT @clubid2=club.id from dbo.club where @clubname2=club.name;
-SELECT @hostid=stadium.id from dbo.stadium where @hostname=stadium.name;
+--SELECT @hostid=stadium.id from dbo.stadium where @hostname=stadium.name;
+--msh mot2kd mnha ana b7awel hna 2geeb elstadium bta3o fa msheet indirect
+SELECT @hostid=club.id from dbo.club where @hostname=club.name;
+SELECT stadium.id from clubRepresentative
+INNER JOIN club ON clubRepresentative.id=club.clubRepresentativeId
+INNER JOIN hostRequest ON clubRepresentative.id=hostRequest.clubRepresentativeId
+INNER JOIN stadiumManager ON hostRequest.stadiumManagerID=stadiumManager.id
+INNER JOIN stadium ON stadium.id=stadiumManager.id
 SET @endtime= DATEADD(MINUTE,+90,@starttime);
 INSERT INTO dbo.match (club1Id,club2Id,stadiumId,startTime,endTime) 
 					  VALUES(@clubid1,@clubid2,@hostid,@starttime,@endtime);
 
+SELECT * from match
+SELECT * FROM club;
+DELETE FROM match where id=6
+EXEC addNewMatch 'club2','club3','club2','2021/09/26 8:00:00'
 ----------------
 GO;
 create view clubsWithNoMatches with schemabinding as
