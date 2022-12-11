@@ -12,7 +12,7 @@ SELECT * FROM systemUser
 SELECT * FROM SportsAsssociationManager
 DELETE FROM systemUser where username='seifhossam2002'
 EXEC addAssociationManager 'Seif','seifhossam2002','Great_Scott2002'
--------------------
+--------------------
 GO;
 CREATE PROCEDURE addNewMatch
 @clubname1 varchar(20),
