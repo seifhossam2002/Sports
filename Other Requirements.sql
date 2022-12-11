@@ -20,39 +20,53 @@ CREATE PROCEDURE addNewMatch
 @hostname varchar(20),
 @starttime datetime
 AS
-DECLARE @clubid1 int,@clubid2 int,@hostid int,@endtime datetime;
+DECLARE @clubid1 int,@clubid2 int,@hostid int,@endtime datetime,@stadiumid int;
 SELECT @clubid1=club.id from dbo.club where @clubname1=club.name;
 SELECT @clubid2=club.id from dbo.club where @clubname2=club.name;
---SELECT @hostid=stadium.id from dbo.stadium where @hostname=stadium.name;
---msh mot2kd mnha ana b7awel hna 2geeb elstadium bta3o fa msheet indirect
+--SELECT @hostid=stadium.id from dbo.stadium where @hostname=stadium.name;		bos
+--msh 3lshan elhostid howa elawel
 SELECT @hostid=club.id from dbo.club where @hostname=club.name;
-SELECT stadium.id from clubRepresentative
-INNER JOIN club ON clubRepresentative.id=club.clubRepresentativeId
-INNER JOIN hostRequest ON clubRepresentative.id=hostRequest.clubRepresentativeId
-INNER JOIN stadiumManager ON hostRequest.stadiumManagerID=stadiumManager.id
-INNER JOIN stadium ON stadium.id=stadiumManager.id
 SET @endtime= DATEADD(MINUTE,+90,@starttime);
-INSERT INTO dbo.match (club1Id,club2Id,stadiumId,startTime,endTime) 
-					  VALUES(@clubid1,@clubid2,@hostid,@starttime,@endtime);
+if @hostid=@clubid1
+BEGIN
+	INSERT INTO dbo.match (club1Id,club2Id,stadiumId,startTime,endTime) 
+   				    VALUES(@clubid1,@clubid2,@stadiumid,@starttime,@endtime);
+END
+ELSE
+BEGIN
+	INSERT INTO dbo.match (club1Id,club2Id,stadiumId,startTime,endTime) 
+   				    VALUES(@clubid2,@clubid1,@stadiumid,@starttime,@endtime);
+END
 
 SELECT * from match
 SELECT * FROM club;
 DELETE FROM match where id=6
-EXEC addNewMatch 'club2','club3','club2','2021/09/26 8:00:00'
-----------------
-GO;
-create view clubsWithNoMatches with schemabinding as
-select c.name from dbo.club c
-except (select c1.name from dbo.club c1 inner join dbo.match M on c1.id = M.club1Id or c1.id=M.club2Id)
-
+DROP PROCEDURE addNewMatch
+EXEC addNewMatch 'club3','club2','club2','2021/09/26 8:00:00'
 ---------
 go;
 create procedure deleteMatch
 @club1 varchar (20),
 @club2 varchar (20),
 @host varchar (20)
-as 
-delete from allMatches where firstTeam = @club1 and secondTeam = @club2 and host = @club1
+as
+--delete from allMatches where firstTeam = @club1 and secondTeam = @club2 and (host = @club1 or host=@club2)	--bos is not updatable because the modification affects multiple base tables.
+DECLARE @clubid1 int,@clubid2 int,@hostid int,@matchid int;
+SELECT @clubid1=club.id from club where @club1=club.name
+SELECT @clubid2=club.id from club where @club2=club.name
+SELECT @hostid=club.id from club where @host=club.name
+SELECT @matchid=match.id FROM match where (@hostid=match.club1Id AND @clubid2=match.club2Id AND @hostid=@clubid1) OR 
+										  (@hostid=match.club2Id AND @clubid2=match.club1Id AND @hostid=@clubid2)
+DELETE FROM ticket where matchId=@matchid;
+DELETE FROM match WHERE match.id=@matchid
+
+
+select * from club
+DROP PROCEDURE deleteMatch
+SELECT * from match
+EXEC deleteMatch 'club2','club3','club3';
+--The DELETE statement conflicted with the REFERENCE constraint "fkM_ticket". The conflict occurred in database "milestone", table "dbo.ticket", column 'matchId'.
+--The statement has been terminated.
 
 ----------
 GO;
@@ -62,6 +76,7 @@ as
 DECLARE @stadiumid int;
 SELECT @stadiumid=stadium.id from stadium where @stadiumname=stadium.name;
 delete from match where CURRENT_TIMESTAMP<startTime AND @stadiumid=match.stadiumId;
+
 -------------
 GO;
 CREATE PROCEDURE addClub

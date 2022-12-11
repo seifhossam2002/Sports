@@ -46,3 +46,8 @@ CREATE VIEW allRequests WITH SCHEMABINDING AS
 SELECT stadiumManager.name 'Stadium Manager name', clubRepresentative.name 'Club Representative name',hostRequest.status FROM dbo.clubRepresentative
 INNER JOIN dbo.hostRequest ON hostRequest.clubRepresentativeId=clubRepresentative.id
 INNER JOIN dbo.stadiumManager ON hostRequest.stadiumManagerID=stadiumManager.id;
+
+GO;
+create view clubsWithNoMatches with schemabinding as
+select c.name from dbo.club c
+except (select c1.name from dbo.club c1 inner join dbo.match M on c1.id = M.club1Id or c1.id=M.club2Id)

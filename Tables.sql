@@ -102,7 +102,7 @@ fanNationalId varchar(20),
 matchId int,
 constraint Pk_ticket PRIMARY KEY (id),
 constraint fkF_ticket foreign key (fanNationalID) references fan(NationalId)ON DELETE CASCADE ON UPDATE CASCADE ,
-constraint fkM_ticket foreign key (matchId) references match(id)  --ON DELETE SET NULL ON UPDATE CASCADE 
+constraint fkM_ticket foreign key (matchId) references match(id) --ON DELETE SET NULL ON UPDATE CASCADE 
 );
 
 EXEC createAllTables;
