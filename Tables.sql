@@ -148,3 +148,4 @@ DELETE FROM systemUser;
 
 DROP PROCEDURE clearAllTables;
 EXEC clearAllTables;
+--seif clown
