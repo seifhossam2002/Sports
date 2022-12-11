@@ -75,8 +75,8 @@ create procedure deleteMatchesOnStadium
 as
 DECLARE @stadiumid int;
 SELECT @stadiumid=stadium.id from stadium where @stadiumname=stadium.name;
+--bos feeh 7aga 3'lt hna!!
 delete from match where CURRENT_TIMESTAMP<startTime AND @stadiumid=match.stadiumId;
-
 -------------
 GO;
 CREATE PROCEDURE addClub
@@ -102,7 +102,16 @@ go
 create procedure deleteClub
 @club varchar (20)
 as
+DECLARE @clubid int;
+select @clubid=club.id from club where club.name=@club
+DELETE FROM ticket where matchId IN (SELECT match.id from match where match.club1Id=@clubid or match.club2Id=@clubid);
+delete from dbo.match where match.club1Id=@clubid or match.club2Id=@clubid
 delete from allClubs where allClubs.name =@club
+
+SELECT * FROM club;
+SELECT * FROM match;
+DROP PROCEDURE deleteClub
+EXEC deleteClub 'club1'
 -----------------
 go
 create procedure addStadium 
@@ -118,6 +127,9 @@ create procedure deleteStadium
 @stadium_name varchar (20)
 as 
 delete from allStadiums where allStadiums.name=@stadium_name
+
+SELECT * FROM stadium;
+EXEC deleteStadium 'stadium3'
 -----------------
 GO;
 CREATE PROCEDURE blockFan
@@ -138,5 +150,3 @@ CREATE PROCEDURE addRepresentative
 @username varchar(20),
 @password varchar(20)
 AS
-------------
-AY 7AGA
