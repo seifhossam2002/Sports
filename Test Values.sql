@@ -1,0 +1,65 @@
+﻿INSERT INTO SYSTEMUSER VALUES
+('stadmanager1','stadmanager1'),
+('stadmanager2','stadmanager2'),
+('stadmanager3','stadmanager3'),
+('clubrep1','clubrep1'),
+('clubrep2','clubrep2'),
+('clubrep3','clubrep3'),
+('samanager1','samanager1'),
+('sysadmn1','sysadmn1'),
+('fan1','fan1'),
+('fan2','fan2'),
+('fan3','fan3'),
+('clubrep4','clubrep4');
+Insert INTO StadiumManager VALUES
+('StadManager 1','stadmanager1'),
+('StadManager 2','stadmanager2'),
+('StadManager 3','stadmanager3');
+Insert INTO ClubRepresentative Values
+('clubRep 1','clubrep1'),
+('clubRep 2','clubrep2'),
+('clubRep 3','clubrep3'),
+('clubRep 4','clubrep4');
+
+Insert Into SportsAssociationManager Values
+('SA Manager 1','samanager1');
+Insert Into SystemAdmin Values
+('sys Admin 1','sysadmn1');
+Insert Into Fan Values 
+(123456,'Fan 1','fan1','1980-07-12','010082836684','Pennsylvania',1),
+(234567,'Fan 2','fan2','1986-06-23','01778393922','New York',0),
+(345678,'Fan 3','fan3','1996-09-23','012366438729','LA',1);
+INSERT INTO Stadium VALUES 
+('Stadium1',1,'Qatar',720,1),
+('Stadium2',0,'Brazil',1000,2),
+('Stadium3',1,'Portugal',1500,3);
+INSERT INTO CLUB VALUES 
+('club1','Germany',1),
+('club2','Spain',2),
+('club3','Morocco',3),
+('club4','France',4)
+delete from club where location='france'
+INSERT INTO Match VALUES
+('2018-11-11 13:00:00','2018-11-11 15:00:00',1,2,1),
+('2020-01-13 17:00:00','2020-01-13 19:00:00',2,3,2),
+('2021-07-21 12:00:00','2021-07-21 14:00:00',3,1,3),
+('2022-03-11 13:00:00','2022-03-11 15:00:00',3,2,1),
+('2022-11-19 14:00:00','2022-11-19 16:00:00',1,3,3);
+Insert INTO HostRequest VALUES
+('accepted',1,1,1),
+('rejected',1,1,2),
+('accepted',2,2,2),
+('rejected',2,2,3),
+('accepted',3,3,3),
+('rejected',3,3,1),
+('accepted',4,1,3),
+('unhandled',4,1,2),
+('accepted',5,3,3),
+('unhandled',5,3,2);
+INSERT  INTO TICKET VALUES
+(1,1,123456),
+(0,2,234567),
+(1,2,345678),
+(0,3,123456),
+(0,4,345678),
+(1,5,234567);

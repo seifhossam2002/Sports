@@ -102,4 +102,8 @@ UPDATE Fan SET status=1 WHERE @national_id=nationalId;
 -----------------
 GO;
 CREATE PROCEDURE addRepresentative
+@name varchar(20),
+@clubname varchar(20),
+@username varchar(20),
+@password varchar(20)
 AS
