@@ -2,7 +2,7 @@
 CREATE VIEW allAssocManagers WITH SCHEMABINDING AS
 SELECT s.username,s.name
 FROM dbo.SportsAsssociationManager s
---------
+
 GO;
 CREATE VIEW allClubRepresentatives WITH SCHEMABINDING AS
 SELECT username,clubRepresentative.name,club.clubRepresentativeId from dbo.clubRepresentative
