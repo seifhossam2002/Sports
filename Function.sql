@@ -31,3 +31,5 @@ BEGIN
 	SELECT match.club2Id,match.startTime from match where match.stadiumId IS NULL;
 	return
 END
+
+------------------
