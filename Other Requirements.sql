@@ -135,13 +135,13 @@ GO;
 CREATE PROCEDURE blockFan
 @national_id int
 AS
-UPDATE Fan SET status=0 WHERE @national_id=nationalId;
+UPDATE Fan SET status=1 WHERE @national_id=nationalId;
 ------------------
 GO;
 CREATE PROCEDURE unblockFan
 @national_id int
 AS
-UPDATE Fan SET status=1 WHERE @national_id=nationalId;
+UPDATE Fan SET status=0 WHERE @national_id=nationalId;
 -----------------
 GO;
 CREATE PROCEDURE addRepresentative
@@ -170,12 +170,6 @@ returns @availablestadium TABLE(
 AS
 BEGIN
 INSERT INTO @availablestadium
-SELECT name,location,capacity from stadium
-where EXISTS(
-	SELECT stadium.id,match.id from stadium
-	LEFT OUTER JOIN match ON match.stadiumId=stadium.id
-	WHERE stadium.status=1 and match.startTime=@elyoom and match.id IS NULL
-)
+SELECT name,location,capacity from (SELECT stadium.name,stadium.location,stadium.capacity from stadium)
 return
 END
-
