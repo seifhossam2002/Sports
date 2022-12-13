@@ -94,7 +94,8 @@ stadiumManagerID int,
 clubRepresentativeId int,
 constraint Pk_hostRequest PRIMARY KEY (id),
 constraint fkSM_hostRequest foreign key (stadiumManagerId) references stadiumManager(id) ON DELETE CASCADE ON UPDATE CASCADE ,
-constraint fkCR_hostRequest foreign key (clubRepresentativeId) references clubRepresentative(id) --ON DELETE SET NULL ON UPDATE CASCADE 
+constraint fkCR_hostRequest foreign key (clubRepresentativeId) references clubRepresentative(id), --ON DELETE SET NULL ON UPDATE CASCADE 
+constraint fkMID_hostRequest foreign key (matchid) references match(id)
 
 );
 create table ticket(
