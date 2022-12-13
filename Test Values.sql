@@ -36,10 +36,10 @@ Insert Into Fan (nationalId,name,username,birthDate,phoneNumber,address,status) 
 ('123456','Fan 1','fan1','1980/07/12','010082836684','Pennsylvania',1),
 ('234567','Fan 2','fan2','1986/06/23','01778393922','New York',0),
 ('345678','Fan 3','fan3','1996/09/23','012366438729','LA',1);
-INSERT INTO Stadium (name,status,location,capacity,stadiumManagerId) VALUES 
-('Stadium1',1,'Qatar',720,1),
-('Stadium2',0,'Brazil',1000,2),
-('Stadium3',1,'Portugal',1500,3);
+INSERT INTO Stadium (name,status,location,capacity) VALUES 
+('Stadium1',1,'Qatar',720),
+('Stadium2',0,'Brazil',1000),
+('Stadium3',1,'Portugal',1500);
 SELECT * FROM stadium
 INSERT INTO Match (startTime,endTime,stadiumId,club1Id,club2Id) VALUES
 ('2018-11-11 13:00:00','2018-11-11 15:00:00',1,2,1),
