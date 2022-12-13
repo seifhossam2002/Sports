@@ -180,5 +180,15 @@ INNER JOIN stadium ON stadium.id=match.stadiumId
 where stadium.name=@stadiumname and match.startTime=@datetime
 
 -------------
-
-
+GO;
+CREATE PROCEDURE addStadiumManager
+@name varchar(20),
+@stadiumName varchar(20),
+@username varchar(20),
+@password varchar(20)
+AS
+DECLARE @stadiumID int;
+SELECT @stadiumID=stadium.id from stadium where stadium.name=@stadiumName
+INSERT INTO systemUser VALUES(@username,@password)
+INSERT INTO stadiumManager VALUES(@name,@username,@stadiumID)
+----------

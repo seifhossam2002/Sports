@@ -8,14 +8,6 @@ username VARCHAR(20) NOT NULL,
 password VARCHAR(20)
 constraint Pk_systemUser PRIMARY KEY (username));
 
-CREATE TABLE stadiumManager(
-id int IDENTITY ,
-name VARCHAR(20) NOT NULL,
-username varchar (20),
-constraint Pk_stadiumManager PRIMARY KEY (id),
-constraint Fk_stadiumManager foreign key (username) references systemUser(username) ON DELETE CASCADE ON UPDATE CASCADE 
-);
-
 create table club(
 name varchar(20),
 id int identity,
@@ -68,9 +60,18 @@ status bit ,
 location varchar (20),
 capacity int,
 name varchar(20),
-stadiumManagerId int,
 constraint Pk_stadium PRIMARY KEY (id),
-constraint fk_stadium foreign key (stadiumManagerId) references stadiumManager(id) ON DELETE CASCADE ON UPDATE CASCADE 
+);
+
+CREATE TABLE stadiumManager(
+id int IDENTITY ,
+name VARCHAR(20) NOT NULL,
+username varchar (20),
+stadiumID int,
+constraint Pk_stadiumManager PRIMARY KEY (id),
+constraint Fk_stadiumManager foreign key (username) references systemUser(username) ON DELETE CASCADE ON UPDATE CASCADE,
+constraint FKSID_stadiumManager foreign key (stadiumId) references stadium(id) ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 
 create table match (
@@ -107,7 +108,6 @@ constraint Pk_ticket PRIMARY KEY (id),
 constraint fkF_ticket foreign key (fanNationalID) references fan(NationalId)ON DELETE CASCADE ON UPDATE CASCADE ,
 constraint fkM_ticket foreign key (matchId) references match(id) --ON DELETE SET NULL ON UPDATE CASCADE 
 );
-
 EXEC createAllTables;
 --------------------------------------
 
@@ -115,12 +115,12 @@ GO;
 create procedure dropAllTables 
 as 
 drop table ticket
-drop table match
 drop table hostRequest
-drop table club
-drop table stadium
+drop table match
 drop table stadiumManager
+drop table stadium
 drop table clubRepresentative
+drop table club
 drop table Fan
 drop table SportsAsssociationManager
 drop table SystemAdmin
@@ -134,17 +134,17 @@ EXEC dropAllTables;
 GO;
 CREATE PROCEDURE clearAllTables
 AS
-DELETE FROM ticket;
-DELETE FROM match;
-DELETE FROM hostRequest;
-DELETE FROM club;
-DELETE FROM stadium;
-DELETE FROM stadiumManager;
-DELETE FROM clubRepresentative;
-DELETE FROM Fan;
-DELETE FROM SportsAsssociationManager;
-DELETE FROM SystemAdmin;
-DELETE FROM systemUser;
+DELETE FROM ticket
+DELETE FROM hostRequest
+DELETE FROM match
+DELETE FROM stadiumManager
+DELETE FROM stadium
+DELETE FROM clubRepresentative
+DELETE FROM club
+DELETE FROM Fan
+DELETE FROM SportsAsssociationManager
+DELETE FROM SystemAdmin
+DELETE FROM systemUser
 
 
 DROP PROCEDURE clearAllTables;
