@@ -661,9 +661,9 @@ set hostRequest.status = 'rejected' from match M  where hostRequest.stadiumManag
 and hostRequest.matchID=@M_ID
 END
 GO;
-DROP proc rejectRequest
-DECLARE @noExistingReq bit
-EXEC rejectRequest 'stadmanager1','club2','club1','2022-03-11 13:00:00.000',@noExistingReq OUTPUT
+
+
+
 GO;
 create proc addFan
 @name varchar(20),
@@ -702,7 +702,6 @@ RETURN(
 	WHERE (c1.name=@clubName or c2.name=@clubName) AND CURRENT_TIMESTAMP<match.startTime
 );
 GO;
-DROP function upcomingMatchesOfClub
 ----------------------
 GO;
 CREATE FUNCTION upcomingMatchesSAM
