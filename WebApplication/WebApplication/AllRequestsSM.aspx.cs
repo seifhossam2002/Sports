@@ -52,5 +52,77 @@ namespace WebApplication
                 Table1.Rows.Add(row);
             }
         }
+
+        protected void accept_Click(object sender, EventArgs e)
+        {
+            string connStr = WebConfigurationManager.ConnectionStrings["Sports league"].ToString();
+            //create a new connection
+            SqlConnection conn = new SqlConnection(connStr);
+            string username = Session["user"].ToString();
+            SqlCommand acceptRequest = new SqlCommand("acceptRequest", conn);
+            acceptRequest.CommandType = CommandType.StoredProcedure;
+            acceptRequest.Parameters.Add(new SqlParameter("@stadium_manager_username", username));
+            acceptRequest.Parameters.Add(new SqlParameter("@hosting_club", TextBox1.Text));
+            acceptRequest.Parameters.Add(new SqlParameter("@competing_club", TextBox2.Text));
+            acceptRequest.Parameters.Add(new SqlParameter("@start", TextBox3.Text));
+            SqlParameter oput = acceptRequest.Parameters.Add("@noExistingReq", SqlDbType.Int);
+            oput.Direction = ParameterDirection.Output;
+            conn.Open();
+            try
+            {
+                acceptRequest.ExecuteNonQuery();
+                conn.Close();
+                if ((int)oput.Value == 1)
+                {
+                    Response.Write("Wrong input please try again later ");
+
+                }
+                else
+                {
+                    Response.Write("done need refresh ;)");
+                }
+            }
+            catch(Exception ex)
+            {
+                Response.Write("Wrong input please try again later ");
+            }
+        }
+
+        protected void reject_Click(object sender, EventArgs e)
+        {
+            string connStr = WebConfigurationManager.ConnectionStrings["Sports league"].ToString();
+            //create a new connection
+            SqlConnection conn = new SqlConnection(connStr);
+            string username = Session["user"].ToString();
+            SqlCommand rejectRequest = new SqlCommand("rejectRequest", conn);
+            rejectRequest.CommandType = CommandType.StoredProcedure;
+            rejectRequest.Parameters.Add(new SqlParameter("@stadium_manager_username", username));
+            rejectRequest.Parameters.Add(new SqlParameter("@hosting_club", TextBox1.Text));
+            rejectRequest.Parameters.Add(new SqlParameter("@competing_club", TextBox2.Text));
+            rejectRequest.Parameters.Add(new SqlParameter("@start", TextBox3.Text));
+            SqlParameter oput = rejectRequest.Parameters.Add("@noExistingReq", SqlDbType.Int);
+            oput.Direction = ParameterDirection.Output;
+
+            conn.Open();
+            try
+            {
+                rejectRequest.ExecuteNonQuery();
+                conn.Close();
+                if ((int)oput.Value == 1)
+                {
+                    Response.Write("Wrong input please try again later ");
+
+                }
+                else
+                {
+                    Response.Write("done need refresh ;)");
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("Wrong input please try again later ");
+            }
+            
+        }
     }
 }

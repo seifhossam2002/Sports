@@ -76,5 +76,5 @@ SELECT * from systemUser
 insert into match (startTime,endTime,club1Id,club2Id) values('2024-11-19 14:00:00.000','2024-11-19 16:00:00.000',3,4)
 SELECT * from stadium
 SELECT * from hostRequest
-SELECT * FROM club
+--SELECT * FROM club
 SELECT * FROM match

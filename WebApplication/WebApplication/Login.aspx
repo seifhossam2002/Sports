@@ -18,8 +18,7 @@
             <asp:TextBox ID="p1" runat="server"></asp:TextBox> <br/> <br/>
             <asp:Button ID="signin" runat="server" Text="log in" OnClick="login"/>
             <asp:Button ID="Button1" runat="server" Text="Register" OnClick="Register"/>
-        </div>
-        
+        </div>        
     </form>
 </body>
 </html>

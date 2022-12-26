@@ -589,7 +589,8 @@ create procedure acceptRequest
 @stadium_manager_username varchar(20),
 @hosting_club varchar(20),
 @competing_club varchar(20),
-@start datetime
+@start datetime,
+@noExistingReq bit OUTPUT
 as
 begin
 declare @i int
@@ -601,12 +602,22 @@ select @ST_ID = STM2.stadiumID from stadiumManager STM2 where STM2.id = @STM_ID
 declare @ST_Capacity int 
 select @ST_Capacity = ST.capacity from stadium ST where ST.id= @ST_ID
 declare @HC_ID int
+set @HC_ID =-1
 select @HC_ID = C1.id from club C1 where C1.name= @hosting_club
 declare @AWAYC_ID int
+set @AWAYC_ID=-1
 select @AWAYC_ID= C2.id from club C2 where C2.name = @competing_club
 declare @M_ID int 
+set @M_ID=-1
 select @M_id =m.id from match m where m.club1Id=@HC_ID and m.club2Id = @AWAYC_ID
 and m.startTime = @start
+if (@HC_ID=-1 OR @AWAYC_ID =-1 or @M_ID=-1)
+begin
+SET @noExistingReq = 1
+end
+ELSE
+BEGIN
+SET @noExistingReq = 0
 update hostRequest
 set hostRequest.status = 'accepted' from match M  where hostRequest.stadiumManagerID=@STM_ID 
 and hostRequest.matchID=@M_ID 
@@ -616,28 +627,43 @@ EXEC addTicket @hosting_club,@competing_club,@start
 SET @i  = @i  + 1
 end
 end
-
+END
 
 GO;
 create proc rejectRequest 
 @stadium_manager_username varchar(20),
 @hosting_club varchar(20),
 @competing_club varchar(20),
-@start datetime
-as 
-declare @STM_ID int 
+@start datetime,
+@noExistingReq Bit output
+as
+declare @STM_ID int
 select @STM_ID= STM.id from stadiumManager STM where STM.username= @stadium_manager_username
 declare @HC_ID int
+set @HC_ID=-1
 select @HC_ID = C1.id from club C1 where C1.name= @hosting_club
 declare @AWAYC_ID int
+set @AWAYC_ID=-1
 select @AWAYC_ID= C2.id from club C2 where C2.name = @competing_club
 declare @M_ID int 
+set @M_ID =-1
 select @M_id =m.id from match m where m.club1Id=@HC_ID and m.club2Id = @AWAYC_ID
 and m.startTime = @start
+if (@HC_ID=-1 OR @AWAYC_ID =-1 or @M_ID=-1)
+begin
+SET @noExistingReq = 1
+end
+ELSE
+BEGIN
+SET @noExistingReq = 0
 update hostRequest
 set hostRequest.status = 'rejected' from match M  where hostRequest.stadiumManagerID=@STM_ID 
 and hostRequest.matchID=@M_ID
-
+END
+GO;
+DROP proc rejectRequest
+DECLARE @noExistingReq bit
+EXEC rejectRequest 'stadmanager1','club2','club1','2022-03-11 13:00:00.000',@noExistingReq OUTPUT
 GO;
 create proc addFan
 @name varchar(20),
@@ -675,6 +701,7 @@ RETURN(
 	LEFT OUTER JOIN stadium ON stadium.id = match.stadiumId
 	WHERE (c1.name=@clubName or c2.name=@clubName) AND CURRENT_TIMESTAMP<match.startTime
 );
+GO;
 DROP function upcomingMatchesOfClub
 ----------------------
 GO;
