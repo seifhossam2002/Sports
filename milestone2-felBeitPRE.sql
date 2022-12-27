@@ -735,7 +735,7 @@ CREATE FUNCTION availableMatchesToAttend
 RETURNS TABLE
 AS
 RETURN(
-	SELECT c1.name 'host club name',c2.name 'guest club name',s.name,s.location
+	SELECT DISTINCT c1.name 'host club name',c2.name 'guest club name',s.name,s.location
 	FROM club c1 
 	INNER JOIN match m ON c1.id=m.club1Id 
 	INNER JOIN club c2 ON c2.id=m.club2Id
@@ -746,6 +746,7 @@ RETURN(
 go;
 
 -------
+
 GO;
 CREATE PROCEDURE purchaseTicket
 @nationalID varchar(20),@hostname varchar(20),@guestname varchar(20),@starttime datetime,@success bit OUTPUT
@@ -754,7 +755,10 @@ BEGIN
 DECLARE @matchID int,@ticketID int
 SET @matchID = -1
 if (0 = all(SELECT status from ticket
-			INNER JOIN match ON match.id = ticket.matchId))
+			INNER JOIN match ON match.id = ticket.matchId
+			INNER JOIN club c1 ON c1.id = match.club1Id
+			INNER JOIN club c2 ON c2.id = match.club2Id
+			WHERE c1.name=@hostname AND c2.name=@guestname AND match.startTime = @starttime))
 BEGIN
 SET @success = 0
 END

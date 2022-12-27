@@ -78,3 +78,4 @@ SELECT * from stadium
 SELECT * from hostRequest
 --SELECT * FROM club
 SELECT * FROM match
+SELECT * FROM ticket
